@@ -6,23 +6,27 @@ using System.Threading.Tasks;
 
 namespace Projekt
 {
-
-
-    internal class Gegner
+    internal class Spieler
     {
         public string Name { get; set; }
         public int Gesundheit { get; set; }
+        public int Schaden { get; set; }
+        public int Inventarplaetze { get; set; }
         public int MinSchaden { get; set; }
         public int MaxSchaden { get; set; }
+        public bool HeilungBenutzt { get; set; } = false;
 
-        public Gegner(string name, int gesundheit, int minSchaden, int maxSchaden)
+        public Spieler(string name, int gesundheit, int minSchaden, int maxSchaden)
         {
             Name = name;
             Gesundheit = gesundheit;
             MinSchaden = minSchaden;
             MaxSchaden = maxSchaden;
         }
+
+
       
+
 
     }
 }
