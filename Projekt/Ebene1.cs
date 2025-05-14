@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,136 +10,224 @@ namespace Projekt
     internal static class Ebene1
     {
 
-        public static void StoryEbene1(Kampflogik kampflogik, Spieler spieler1)
+        public static void StoryEbene1(Kampflogik kampflogik, Spieler spieler, string pfad)
         {
-            Gegner ratte = new Gegner("Schattenratte", 30, 5, 10);
-            Gegner krabbler = new Gegner("knochenkrabbler", 35, 6, 11);
-            Gegner spinne = new Gegner("Spinne", 35, 6, 15);
-            Gegner wächter = new Gegner("Wächter", 50, 7, 20);
-            Spieler spieler = new Spieler("name", 0, 0, 0);
+            Gegner ratte = new Gegner("Schattenratte", 30, 5, 10,30 );
+            Gegner krabbler = new Gegner("knochenkrabbler", 35, 6, 11, 35);
+            Gegner spinne = new Gegner("Spinne", 35, 6, 15, 35);
+            Gegner wächter = new Gegner("Wächter", 50, 7, 20, 50 );
             List<string> besuchteWege = new List<string>();
             bool weiter = false;
-
-
-            Console.WriteLine("Du betrittst die finsteren Hallen der Schatten.");
-            Console.WriteLine("Ein kalter Wind weht durch die zerfallenen Mauern.");
-            Console.WriteLine("Vor dir verzweigen sich drei Gänge.");
-            Console.WriteLine("1 - Gehe nach links");
-            Console.WriteLine("2 - Gehe durch den schmalen Spalt direkt vor dir");
-            Console.WriteLine("3 - Gehe nach rechts");
-
-            Console.Write("Wähle deinen Weg (1-3): ");
             string eingabe = Console.ReadLine()?.Trim() ?? "";
 
+            
+
             Console.WriteLine("Du betrittst die finsteren Hallen der Schatten.");
-            Console.WriteLine("Ein kalter Wind weht durch die zerfallenen Mauern.");
+                Console.WriteLine("Ein kalter Wind weht durch die zerfallenen Mauern.");
+                Console.WriteLine("\nVor dir verzweigen sich drei Gänge:");
 
             while (!weiter)
             {
-                Console.WriteLine("\nVor dir verzweigen sich drei Gänge.");
+             
                 if (!besuchteWege.Contains("1")) Console.WriteLine("1 - Gehe nach links");
                 if (!besuchteWege.Contains("2")) Console.WriteLine("2 - Gehe durch den schmalen Spalt direkt vor dir");
                 if (!besuchteWege.Contains("3")) Console.WriteLine("3 - Gehe nach rechts");
 
                 Console.Write("Wähle deinen Weg (1-3): ");
-                 eingabe = Console.ReadLine()?.Trim() ?? "";
+                eingabe = Console.ReadLine()?.Trim() ?? "";
 
                 if (eingabe == "1" && !besuchteWege.Contains("1"))
                 {
                     Console.WriteLine("Plötzlich raschelt es im Dunkeln!");
                     Console.WriteLine("Eine Schattenratte greift dich an!");
                     kampflogik.Kämpfe(spieler, ratte);
-
                     Console.WriteLine("Du hast den Kampf überlebt und kannst weitergehen.");
+                   
+
                     weiter = true;
                 }
                 else if (eingabe == "2" && !besuchteWege.Contains("2"))
                 {
-                    Console.WriteLine("Du zwängst dich durch den Spalt und findest eine versteckte Nische.");
-                    Console.WriteLine("In einer Truhe findest du 20 Goldmünzen!");
+                    Console.WriteLine("Du findest 20 Gold in einer Truhe.");
+                    spieler.Gold += 20;
                     besuchteWege.Add("2");
                 }
                 else if (eingabe == "3" && !besuchteWege.Contains("3"))
                 {
-                    Console.WriteLine("Du läufst einen dunklen Gang entlang...");
-                    Console.WriteLine("...nur um festzustellen, dass du vor einer zugemauerten Wand stehst.");
-                    Console.WriteLine("Zeitverschwendung. Du kehrst um.");
+                    Console.WriteLine("Der Gang endet an einer zugemauerten Wand. Sackgasse.");
                     besuchteWege.Add("3");
                 }
                 else
                 {
-                    Console.WriteLine("Ungültige Eingabe oder dieser Weg wurde bereits betreten.");
+                    Console.WriteLine("Ungültig oder bereits besucht.");
                 }
             }
 
-            //man kommt nur weiter wenn man gegen gekämpft hat bei weg 1
+            // Abschnitt 2
+            weiter = false;
+            besuchteWege.Clear();
 
-            //abzweigung 2
-            Console.WriteLine("nach dem letzten kampf atmest du schwer.");
-            Console.WriteLine("1 - gehe geradeaus");
-            Console.WriteLine("2 - folge dem modrigen gang zur linken seite");
-            Console.WriteLine("3 - biege in den mit spinnweben bedeckten tunnel rechts ein");
+            while (!weiter)
+            {
+                Console.WriteLine("\nDrei neue Gänge eröffnen sich:");
+                if (!besuchteWege.Contains("1")) Console.WriteLine("1 - Geradeaus zu einem alten Händler");
+                if (!besuchteWege.Contains("2")) Console.WriteLine("2 - Modriger Gang zur linken Seite");
+                if (!besuchteWege.Contains("3")) Console.WriteLine("3 - Tunnel mit Spinnweben zur Rechten");
 
-            //auswahl 1 weg2
-            Console.WriteLine("du betrittst einen raum mit einem alten, grinsenden händler.");
-            Console.WriteLine("1 - dolch (+2 schaden) - 20 gold");
-            Console.WriteLine("2 - lederweste (+5 hp) - 15 gold");
-            Console.WriteLine("3 - heiltrank (+20 hp) - 10 gold");
-            Console.WriteLine("0 - nichts kaufen");
+                Console.Write("Wähle deinen Weg (1-3): ");
+                eingabe = Console.ReadLine()?.Trim() ?? "";
 
-            //auswahl 2 weg2
-            Console.WriteLine("ein fauliger geruch liegt in der luft...");
-            Console.WriteLine("plötzlich springt ein knochenkrabbler aus einem haufen alter schädel!");
-            Console.WriteLine("der kampf beginnt!");
-            kampflogik.Kämpfe(spieler, krabbler);
+                if (eingabe == "1" && !besuchteWege.Contains("1"))
+                {
+                    bool einkaufen = true;
 
-            //auswahl 3 weg2
-            Console.WriteLine("du verirrst dich in einen von spinnweben bedeckten tunnel...");
-            Console.WriteLine("...und findest nichts außer einer toten spinne.");
-            Console.WriteLine("sackgasse. du gehst zurück.");
+                    while (einkaufen)
+                    {
+                        Console.WriteLine($"\nGold: {spieler.Gold}");
+                        Console.WriteLine("Was möchtest du kaufen?");
+                        Console.WriteLine("1 - Dolch (+2 Schaden) – 15 Gold");
+                        Console.WriteLine("2 - Lederweste (+5 HP) – 20 Gold");
+                        Console.WriteLine("3 - Heiltrank (+20 HP) – 5 Gold");
+                        Console.WriteLine("0 - Nichts kaufen / Verlassen");
 
-            //man kommt nur weiter wenn man gegner bekämpft hat bei weg 2
+                        string kauf = Console.ReadLine()?.Trim() ?? "";
 
-            //abzweigung 3
-            Console.WriteLine("du schreitest tiefer in die düsteren hallen.");
-            Console.WriteLine("drei gänge führen in unterschiedliche richtungen:");
-            Console.WriteLine("1 - ein gang, aus dem ein kratzen zu hören ist");
-            Console.WriteLine("2 - ein schmaler seitengang mit einer leuchtenden fackel an der wand");
-            Console.WriteLine("3 - ein langer, stiller tunnel mit eingestürztem boden");
-            //auswahl 1 weg 3
-            Console.WriteLine("du gehst dem kratzen nach...");
-            Console.WriteLine("eine riesige schattenspinne krabbelt von der decke herab!");
-            Console.WriteLine("der kampf beginnt!");
-            kampflogik.Kämpfe(spieler, spinne);
+                        if (kauf == "1")
+                        {
+                            if (spieler.Gold >= 15)
+                            {
+                                Console.WriteLine("Du kaufst einen Dolch.");
+                                spieler.MinSchaden += 2;
+                                spieler. MaxSchaden+= 2;
+                                spieler.Gold -= 15;
+                            }
+                            else Console.WriteLine("Nicht genug Gold.");
+                        }
+                        else if (kauf == "2")
+                        {
+                            if (spieler.Gold >= 20)
+                            {
+                                Console.WriteLine("Du ziehst die Lederweste an.");
+                                spieler.MaxGesundheit += 5;
+                                spieler.Gesundheit += 5;
+                                spieler.Gold -= 20;
+                            }
+                            else Console.WriteLine("Nicht genug Gold.");
+                        }
+                        else if (kauf == "3")
+                        {
+                            if (spieler.Gold >= 10)
+                            {
+                                Console.WriteLine("Du trinkst den Heiltrank.");
+                                spieler.Gesundheit += 20;
+                                if (spieler.Gesundheit > spieler.MaxGesundheit)
+                                    spieler.Gesundheit = spieler.MaxGesundheit;
+                                spieler.Gold -= 5;
+                            }
+                            else Console.WriteLine("Nicht genug Gold.");
+                        }
+                        else if (kauf == "0")
+                        {
+                            Console.WriteLine("Du verlässt den Händler.");
+                            einkaufen = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ungültige Eingabe.");
+                        }
+                    }
 
+                    besuchteWege.Add("1");
+                }
+                else if (eingabe == "2" && !besuchteWege.Contains("2"))
+                {
+                    Console.WriteLine("Ein Knochenkrabbler springt aus dem Schatten!");
+                    kampflogik.Kämpfe(spieler, krabbler);
+                    Console.WriteLine("Du hast ihn besiegt. Weiter geht’s.");
+                    weiter = true;
+                }
+                else if (eingabe == "3" && !besuchteWege.Contains("3"))
+                {
+                    Console.WriteLine("Nur eine tote Spinne. Sackgasse.");
+                    besuchteWege.Add("3");
+                }
+                else
+                {
+                    Console.WriteLine("Ungültig oder bereits besucht.");
+                }
+            }
 
-            //auswahl 2 weg 3
-            Console.WriteLine("der gang endet in einem kleinen raum.");
-            Console.WriteLine("in einer ecke findest du eine alte truhe.");
-            Console.WriteLine("du öffnest sie vorsichtig und findest:");
-            Console.WriteLine("- 15 gold");
-            Console.WriteLine("- 1x heiltrank");
-            // loot zum inventar hinzufügen
-            //aushwahl 3 weg 3
-            Console.WriteLine("du folgst dem tunnel...");
-            Console.WriteLine("doch der boden bricht plötzlich unter dir ein!");
-            Console.WriteLine("du kannst dich gerade noch festhalten und zurückklettern.");
-            Console.WriteLine("sackgasse. du kehrst um.");
+            // Abschnitt 3
+            weiter = false;
+            besuchteWege.Clear();
 
-            // man kommt erst weiter wieder wenn man gekämpft hat 
+            while (!weiter)
+            {
+                Console.WriteLine("\nLetzte Weggabelung vor dem Endboss:");
+                if (!besuchteWege.Contains("1")) Console.WriteLine("1 - Ein Gang, aus dem Kratzen zu hören ist");
+                if (!besuchteWege.Contains("2")) Console.WriteLine("2 - Gang mit leuchtender Fackel");
+                if (!besuchteWege.Contains("3")) Console.WriteLine("3 - Stillen Tunnel mit eingestürztem Boden");
 
-            Console.WriteLine("Du erreichst eine große Steintür mit eingravierten Symbolen.");
-            Console.WriteLine("Als du sie öffnest, spürst du sofort eine drückende Präsenz.");
-            Console.WriteLine("In der Mitte der Halle steht eine dunkle Gestalt, umgeben von schwarzem Nebel.");
-            Console.WriteLine("Es ist der 'Finsterwächter' – der Hüter des Ebenenübergangs!");
-            Console.WriteLine("Er hebt sein verfluchtes Schwert und schreit: 'Niemand passiert diesen Punkt!'");
+                Console.Write("Wähle deinen Weg (1-3): ");
+                eingabe = Console.ReadLine()?.Trim() ?? "";
 
-            Console.WriteLine("Der Kampf gegen den Miniboss beginnt!");
-            kampflogik.Kämpfe(spieler, wächter);
+                if (eingabe == "1" && !besuchteWege.Contains("1"))
+                {
+                    Console.WriteLine("Eine riesige Schattenspinne fällt von der Decke!");
+                    kampflogik.Kämpfe(spieler, spinne);
+                    Console.WriteLine("Du hast sie besiegt. Zeit, dich dem Endboss zu stellen.");
+                    weiter = true;
+                }
+                else if (eingabe == "2" && !besuchteWege.Contains("2"))
+                {
+                    Console.WriteLine("Du findest einen Heiltrank.");
+                    // Loot ins Inventar
+                    besuchteWege.Add("2");
+                }
+                else if (eingabe == "3" && !besuchteWege.Contains("3"))
+                {
+                    Console.WriteLine("Der Boden bricht unter dir ein. Du rettest dich gerade noch. Sackgasse.");
+                    besuchteWege.Add("3");
+                }
+                else
+                {
+                    Console.WriteLine("Ungültig oder bereits besucht.");
+                }
+            }
+            Console.WriteLine("Möchtest du deinen Fortschritt speichern? (j/n)");
+             eingabe = Console.ReadLine()?.Trim()??"".ToLower();
+            if (eingabe == "j")
+            {
+                Speichern_Laden.Speichern(spieler, @"C:\\Users\\NitscheDennis\\source\\repos\\Projekt\\Projekt");
+                Console.WriteLine("Spielstand gespeichert.");
+            }
+            while (!weiter)
+            {
+                Console.WriteLine("Du erreichst eine große Steintür mit eingravierten Symbolen.");
+                Console.WriteLine("Als du sie öffnest, spürst du sofort eine drückende Präsenz.");
+                Console.WriteLine("In der Mitte der Halle steht eine dunkle Gestalt, umgeben von schwarzem Nebel.");
+                Console.WriteLine("Es ist der 'Finsterwächter' – der Hüter des Ebenenübergangs!");
+                Console.WriteLine("Er hebt sein verfluchtes Schwert und schreit: 'Niemand passiert diesen Punkt!'");
 
-            Console.WriteLine("Du hast den Finsterwächter besiegt!");
-            Console.WriteLine("Sein Körper zerfällt zu Staub und gibt den Weg zur nächsten Ebene frei.");
-            Console.WriteLine("Du findest 40 Gold und ein mächtiges Item: 'Splitter der Schattenrüstung' (+10 HP)");
+                Console.WriteLine("Der Kampf gegen den Miniboss beginnt!");
+                kampflogik.Kämpfe(spieler, wächter);
+
+                if (wächter.Gesundheit <= 0)
+                {
+                    Console.WriteLine("Du hast den Finsterwächter besiegt!");
+                    Console.WriteLine("Sein Körper zerfällt zu Staub und gibt den Weg zur nächsten Ebene frei.");
+                    Console.WriteLine("Du findest 40 Gold und ein mächtiges Item: 'Splitter der Schattenrüstung' (+10 HP)");
+                    // Beispielhafte Belohnung: spieler.Gesundheit += 10;
+                    weiter = true;
+                }
+                else if (spieler.Gesundheit <= 0)
+                {
+                    Console.WriteLine("Du bist gefallen. Das Abenteuer endet hier.");
+                    // Spiel beenden oder Neustart anbieten
+                    break;
+                }
+            }
+
 
         }
 

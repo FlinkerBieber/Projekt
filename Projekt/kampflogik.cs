@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -17,15 +19,15 @@ namespace Projekt
             {
                 Console.Clear();
                 Console.WriteLine($"🧍 {spieler.Name} vs. {gegner.Name} 🐀\n");
-                ZeigeLebensbalken(spieler.Name, spieler.Gesundheit, 150);
-                ZeigeLebensbalken(gegner.Name, gegner.Gesundheit, 100);
+                ZeigeLebensbalken(spieler.Name, spieler.Gesundheit, spieler.MaxGesundheit);
+                ZeigeLebensbalken(gegner.Name, gegner.Gesundheit, gegner.MaxGesundheit);
                 Console.WriteLine();
 
                 Console.WriteLine("Was möchtest du tun?");
                 Console.WriteLine("1 - Angreifen");
                 Console.WriteLine("2 - Heilen (+20 HP, 1x pro Kampf)");
                 Console.Write("Aktion wählen: ");
-                string aktion = Console.ReadLine()??"";
+                string aktion = Console.ReadLine() ?? "";
 
                 if (aktion == "1")
                 {
@@ -68,18 +70,45 @@ namespace Projekt
             Console.Clear();
             if (spieler.Gesundheit > 0)
                 Console.WriteLine("🏆 Du hast gewonnen!");
-            else
-                Console.WriteLine("💀 Du bist gestorben...");
-        }
+            else if (spieler.Gesundheit <= 0)
+            {
+                Console.WriteLine("💀 Du bist gestorben... Das Abenteuer endet hier.");
+                Console.WriteLine("Möchtest du von vorne beginnen? (j/n): ");
+                string antwort = Console.ReadLine()?.Trim().ToLower()??"";
+                if (antwort == "j")
+                {
+                    // Spiel zurücksetzen (z. B. Gesundheit, Gold, Inventar etc.)
+                    spieler = new Spieler("", 100, 7, 15,100);
+                    Console.WriteLine("Ein neues Abenteuer beginnt...");
+                }
+                else
+                {
+                    Console.WriteLine("Spiel wird beendet. Danke fürs Spielen!");
+                    Environment.Exit(0);
+                }
+            }
 
-        private void ZeigeLebensbalken(string name, int hp, int maxHp)
-        {
-            int breite = 20;
-            int anzahl = (int)((double)hp / maxHp * breite);
-            Console.Write($"{name}: [");
-            Console.Write(new string('#', anzahl));
-            Console.Write(new string('-', breite - anzahl));
-            Console.WriteLine($"] {hp} HP");
+            static void ZeigeLebensbalken(string name, int hp, int maxHp)
+            {
+
+                int breite = 20;
+                int anzahl = (int)((double)hp / maxHp * breite);
+                anzahl = Math.Clamp(anzahl, 0, breite); // anzahl darf nicht < 0 oder > breite sein
+
+                double prozent = (double)hp / maxHp;
+                if (prozent >= 0.7)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else if (prozent >= 0.3)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                else
+                    Console.ForegroundColor = ConsoleColor.Red;
+
+                Console.Write($"{name}: [");
+                Console.Write(new string('#', anzahl));
+                Console.ResetColor();
+                Console.Write(new string('-', breite - anzahl));
+                Console.WriteLine($"] {hp} HP");
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Projekt
             Console.WriteLine("Wie soll dein Charakter heißen?");
 
             string name = Console.ReadLine() ?? "Unbekannt";
-            Spieler spieler = new Spieler(name, 0, 0, 0);
+            Spieler spieler = new Spieler(name, 0, 0, 0, 0);
             Console.Clear();
 
             bool auswahl = false;
@@ -62,7 +62,7 @@ namespace Projekt
                             spieler.Inventarplaetze = 15;
                             break;
                         case 050797:
-                            spieler.Gesundheit = 10000;
+                            spieler.Gesundheit = 100;
                             spieler.MinSchaden = 1100;
                             spieler.MaxSchaden = 1100;
                             spieler.Inventarplaetze = 100;
@@ -93,7 +93,7 @@ namespace Projekt
             
 
             
-            return spieler; // Gib das Spieler-Objekt zurück
+            return spieler; 
         }
     }
 } 
