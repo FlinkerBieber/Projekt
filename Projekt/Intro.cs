@@ -14,11 +14,35 @@ namespace Projekt
 
         public static Spieler IntroAnfang()
         {
-            Console.WriteLine("Willkommen zu:");
-            Console.WriteLine("--- Gefangen im Labyrinth ---");
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(@"
+╔═══════════════════════════════════╗
+║     W I L L K O M M E N   Z U     ║
+║    ── Gefangen im Labyrinth ──    ║
+╚═══════════════════════════════════╝
+");
+            Console.ResetColor();
+            Thread.Sleep(1000);
+
             Console.WriteLine();
-            Console.WriteLine("Du wachst auf in irgendeinem Raum, du hast keine Ahnung wie du hier gelandet bist und kannst dich selbst erst langsam wieder an deinen Namen erinnern.");
-            Console.WriteLine("Wie soll dein Charakter heißen?");
+            Console.WriteLine("...");
+            Thread.Sleep(1000);
+            Console.WriteLine("Ein kalter Steinboden. Dunkelheit. Stille.");
+            Thread.Sleep(2000);
+            Console.WriteLine("Deine Augen öffnen sich langsam – verschwommen, benommen.");
+            Thread.Sleep(2500);
+            Console.WriteLine("Du hörst nur dein Atmen... und irgendwo das Tropfen von Wasser.");
+            Thread.Sleep(2000);
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Wer... bist du?");
+            Console.ResetColor();
+            Thread.Sleep(1500);
+            Console.WriteLine("Dein Verstand kämpft sich zurück, Bilder flackern auf.");
+            Thread.Sleep(2000);
+            Console.WriteLine();
+            Console.Write("Wie lautet dein Name, Abenteurer? ");
 
             string name = Console.ReadLine() ?? "Unbekannt";
             Spieler spieler = new Spieler(name, 0, 0, 0, 0);
@@ -29,13 +53,38 @@ namespace Projekt
             while (!auswahl)
             {
                 auswahl = true;
-                Console.WriteLine($"{name}, nachfolgend kannst du aussuchen, welche Klasse dein Charakter haben soll. Entweder Krieger, Schütze oder Sammler.");
-                Console.WriteLine("Wähle weise, auf deinem Weg kannst du die einzigartigen Stats, die jede Klasse mit sich bringt, nicht mehr ändern.");
-                Console.WriteLine("Wähle deine Klasse:");
-                Console.WriteLine("1 - Krieger (mehr Schaden)");
-                Console.WriteLine("2 - Schütze (mehr Gesundheit)");
-                Console.WriteLine("3 - Sammler (mehr Inventarplätze)");
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine(@"
+╔════════════════════════════════════════════════════╗
+║           W Ä H L E   D E I N E   K L A S S E       ║
+╚════════════════════════════════════════════════════╝
+");
+                Console.ResetColor();
+                Thread.Sleep(1000);
 
+                Console.WriteLine($"{name}, es ist an der Zeit, deinen Weg zu wählen...");
+                Thread.Sleep(2000);
+                Console.WriteLine("Drei Wege. Drei Schicksale. Doch nur einer ist deiner.");
+                Thread.Sleep(2500);
+                Console.WriteLine();
+                Console.WriteLine("Wähle weise – deine Entscheidung prägt deine Reise und ist unumkehrbar.");
+                Thread.Sleep(2000);
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("1 - Krieger   » Brutale Kraft | Höherer Schaden");
+                Console.ResetColor();
+                Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("2 - Schütze   » Zäher Überlebenskünstler | Mehr Gesundheit");
+                Console.ResetColor();
+                Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("3 - Sammler   » Gerissener Entdecker | Mehr Inventarplätze");
+                Console.ResetColor();
+                Thread.Sleep(1000);
+                Console.WriteLine();
+                Console.Write("Deine Wahl (1/2/3): ");
                 string eingabe = Console.ReadLine() ?? "";
                 Console.Clear();
                 int wahl;
@@ -81,13 +130,33 @@ namespace Projekt
                     auswahl = false;
  
                 }
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(@"
+╔═══════════════════════════════════════════════╗
+║              D E I N   Z I E L                ║
+╚═══════════════════════════════════════════════╝
+");
+                Console.ResetColor();
+                Thread.Sleep(1000);
 
-                Console.WriteLine("Dein Ziel: Entkomme dem Labyrinth – oder stirb bei dem Versuch.");
+                Console.WriteLine("Dein Ziel ist klar:");
+                Thread.Sleep(1500);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("» Entkomme dem Labyrinth – oder stirb bei dem Versuch. «");
+                Console.ResetColor();
+                Thread.Sleep(2000);
                 Console.WriteLine();
-                Console.WriteLine("Drei Wege stehen dir offen...");
+                Console.WriteLine("Vor dir tun sich drei dunkle Wege auf...");
+                Thread.Sleep(2000);
+                Console.WriteLine("Jeder führt zu einem anderen Schicksal.");
+                Thread.Sleep(2000);
+                Console.WriteLine();
                 Console.WriteLine("Wähle deinen Pfad mit Bedacht.");
+                Thread.Sleep(1500);
                 Console.WriteLine();
-                Console.WriteLine("Drücke eine Taste, um fortzufahren...");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Drücke eine beliebige Taste, um dich dem Unbekannten zu stellen...");
+                Console.ResetColor();
                 Console.ReadKey();
                 Console.Clear();
             }

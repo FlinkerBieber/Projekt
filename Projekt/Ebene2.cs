@@ -21,8 +21,17 @@ namespace Projekt
             bool weiter = false;
 
             // Abschnitt 1
-            Console.WriteLine("Du betrittst die zweite Ebene: Eine uralte Gruft, in der der Tod selbst zu wohnen scheint.");
-            Console.WriteLine("Drei neue Wege tun sich vor dir auf:");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("╔════════════════════════════════════════════════╗");
+            Console.WriteLine("║ Du betrittst die zweite Ebene: Eine uralte Gruft ║");
+            Console.WriteLine("╚════════════════════════════════════════════════╝");
+            Console.ResetColor();
+            Console.WriteLine("Der Tod selbst scheint hier zu wohnen. Die Luft ist faulig und schwer.");
+            Console.WriteLine("Drei neue Wege tun sich vor dir auf:\n");
+
+            // Abschnitt 1
+            weiter = false;
+            besuchteWege.Clear();
 
             while (!weiter)
             {
@@ -46,7 +55,9 @@ namespace Projekt
                 }
                 else if (eingabe == "3" && !besuchteWege.Contains("3"))
                 {
-                    Console.WriteLine("Eine Statue greift dich an!");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Eine Statue erwacht zum Leben und greift dich an!");
+                    Console.ResetColor();
                     kampflogik.Kämpfe(spieler, statueritter);
                     weiter = true;
                 }
@@ -59,7 +70,6 @@ namespace Projekt
             // Abschnitt 2
             weiter = false;
             besuchteWege.Clear();
-
             Console.WriteLine("\nDrei neue Gänge stehen dir offen:");
 
             while (!weiter)
@@ -73,13 +83,15 @@ namespace Projekt
 
                 if (eingabe == "1" && !besuchteWege.Contains("1"))
                 {
-                    Console.WriteLine("Eine verlorene Seele greift dich an!");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Eine verlorene Seele erscheint und greift dich an!");
+                    Console.ResetColor();
                     kampflogik.Kämpfe(spieler, verloreneSeele);
                     weiter = true;
                 }
                 else if (eingabe == "2" && !besuchteWege.Contains("2"))
                 {
-                    Console.WriteLine("Du findest 20 Gold in einer Truhe.");
+                    Console.WriteLine("Du findest 20 Gold in einer verstaubten Truhe.");
                     spieler.Gold += 20;
                     besuchteWege.Add("2");
                 }
@@ -97,33 +109,32 @@ namespace Projekt
             // Abschnitt 3
             weiter = false;
             besuchteWege.Clear();
-
             Console.WriteLine("\nDrei letzte Wege vor dem Miniboss:");
 
             while (!weiter)
             {
-                if (!besuchteWege.Contains("1")) Console.WriteLine("A - Raum voller Knochen");
-                if (!besuchteWege.Contains("2")) Console.WriteLine("B - Raum mit Pilzen");
-                if (!besuchteWege.Contains("3")) Console.WriteLine("C - Versteckte Nische");
+                if (!besuchteWege.Contains("1")) Console.WriteLine("1 - Raum voller Knochen");
+                if (!besuchteWege.Contains("2")) Console.WriteLine("2 - Raum mit Pilzen");
+                if (!besuchteWege.Contains("3")) Console.WriteLine("3 - Versteckte Nische");
 
-                Console.Write("Wähle deinen Weg (A-C): ");
-                eingabe = Console.ReadLine()?.Trim().ToUpper() ?? "";
+                Console.Write("Wähle deinen Weg (1-3): ");
+                eingabe = Console.ReadLine()?.Trim() ?? "";
 
-                if (eingabe == "A" && !besuchteWege.Contains("1"))
+                if (eingabe == "1" && !besuchteWege.Contains("1"))
                 {
-                    Console.WriteLine("Eine Skelettbestie greift dich an!");
+                    Console.WriteLine("Eine Skelettbestie springt dich an!");
                     kampflogik.Kämpfe(spieler, skelettBestie);
                     weiter = true;
                 }
-                else if (eingabe == "B" && !besuchteWege.Contains("2"))
+                else if (eingabe == "2" && !besuchteWege.Contains("2"))
                 {
                     Console.WriteLine("Du findest einen sicheren Durchgang – kein Kampf.");
                     weiter = true;
                 }
-                else if (eingabe == "C" && !besuchteWege.Contains("3"))
+                else if (eingabe == "3" && !besuchteWege.Contains("3"))
                 {
-                    Console.WriteLine("Eine leere Truhe – der Weg ist versperrt.");
-                    besuchteWege.Add("C");
+                    Console.WriteLine("Eine leere Truhe... Der Weg ist versperrt.");
+                    besuchteWege.Add("3");
                 }
                 else
                 {
@@ -132,10 +143,13 @@ namespace Projekt
             }
 
             // Händler
-            Console.WriteLine("\nDu findest einen Händler:");
-            Console.WriteLine("1 - Stahlschwert (+8 Schaden)");
-            Console.WriteLine("2 - Eisenrüstung (+15 HP)");
-            Console.WriteLine("3 - Heiltrank (+30 HP)");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nEin flackerndes Licht leitet dich zu einem Händler:");
+            Console.WriteLine("»Gold gegen Leben oder Tod«, sagt er mit krächzender Stimme.");
+            Console.ResetColor();
+            Console.WriteLine("1 - Stahlschwert (+8 Schaden, 30 Gold)");
+            Console.WriteLine("2 - Eisenrüstung (+15 HP, 40 Gold)");
+            Console.WriteLine("3 - Heiltrank (+30 HP, 20 Gold)");
             Console.WriteLine("0 - Nichts kaufen");
 
             eingabe = Console.ReadLine()?.Trim() ?? "";
@@ -143,28 +157,34 @@ namespace Projekt
             switch (eingabe)
             {
                 case "1":
-                    if (spieler.Gold >= 30) { 
+                    if (spieler.Gold >= 30)
+                    {
                         spieler.Schaden += 8;
-                        spieler.Gold -= 30; 
-                        Console.WriteLine("Gekauft."); }
+                        spieler.Gold -= 30;
+                        Console.WriteLine("Du greifst nach dem Stahlschwert. Es fühlt sich mächtig an.");
+                    }
                     else Console.WriteLine("Nicht genug Gold.");
                     break;
                 case "2":
-                    if (spieler.Gold >= 40) { 
-                        spieler.Gesundheit += 15; 
+                    if (spieler.Gold >= 40)
+                    {
+                        spieler.Gesundheit += 15;
                         spieler.Gold -= 40;
-                        Console.WriteLine("Gekauft."); }
+                        Console.WriteLine("Die Eisenrüstung liegt schwer, aber schützend auf deinen Schultern.");
+                    }
                     else Console.WriteLine("Nicht genug Gold.");
                     break;
                 case "3":
-                    if (spieler.Gold >= 20) { 
-                        spieler.Gesundheit += 30; 
-                        spieler.Gold -= 20; 
-                        Console.WriteLine("Gekauft."); }
+                    if (spieler.Gold >= 20)
+                    {
+                        spieler.Gesundheit += 30;
+                        spieler.Gold -= 20;
+                        Console.WriteLine("Du trinkst den Heiltrank. Wärme strömt durch deinen Körper.");
+                    }
                     else Console.WriteLine("Nicht genug Gold.");
                     break;
                 case "0":
-                    Console.WriteLine("Du ziehst weiter.");
+                    Console.WriteLine("Du gehst schweigend weiter...");
                     break;
                 default:
                     Console.WriteLine("Ungültige Eingabe.");
@@ -172,17 +192,28 @@ namespace Projekt
             }
 
             // Miniboss
-            Console.WriteLine("\nEin riesiger Trolldämon stellt sich dir in den Weg!");
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Ein ohrenbetäubendes Brüllen hallt durch die Gruft!");
+            Console.WriteLine("Ein riesiger Trolldämon mit brennenden Augen tritt aus dem Schatten!");
+            Console.ResetColor();
+            Console.WriteLine("🔥 Der Kampf gegen den Trolldämon beginnt! 🔥");
+
             kampflogik.Kämpfe(spieler, trollDaemon);
 
             if (spieler.Gesundheit > 0)
             {
-                Console.WriteLine("Du hast den Trolldämon besiegt!");
-                Console.WriteLine("Die Wand hinter ihm bricht auf und führt zur dritten Ebene.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Mit letzter Kraft streckst du den Trolldämon nieder!");
+                Console.ResetColor();
+                Console.WriteLine("Die Wand hinter ihm bricht krachend auf und gibt den Weg zur dritten Ebene frei.");
             }
             else
             {
-                Console.WriteLine("Du bist gefallen. Dein Abenteuer endet hier.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Dein Körper sinkt kraftlos zu Boden... Das war dein Ende.");
+                Console.ResetColor();
+                Console.WriteLine(" GAME OVER ");
             }
         }
     }

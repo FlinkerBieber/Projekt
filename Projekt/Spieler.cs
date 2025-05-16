@@ -49,7 +49,17 @@ namespace Projekt
             Console.WriteLine("Gesundheit und Schaden wurden erhöht.\n");
             Console.ResetColor();
         }
-
+        public void ZeigeStats()
+        {
+            Console.WriteLine("\n--- Spielerstatus ---");
+            Console.WriteLine($"Name: {Name}");
+            Console.WriteLine($"Gesundheit: {Gesundheit} / {MaxGesundheit}");
+            Console.WriteLine($"Schaden: {MinSchaden} - {MaxSchaden}");
+            Console.WriteLine($"Gold: {Gold}");
+            Console.WriteLine($"Inventarplätze: {Inventarplaetze}");
+            Console.WriteLine($"Gegner besiegt: {GegnerGetoetet}");
+            Console.WriteLine("----------------------\n");
+        }
 
     }
 }

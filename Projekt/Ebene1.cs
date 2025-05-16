@@ -20,15 +20,21 @@ namespace Projekt
             bool weiter = false;
             string eingabe = Console.ReadLine()?.Trim() ?? "";
 
-            
 
-                Console.WriteLine("Du betrittst die finsteren Hallen der Schatten.");
-                Console.WriteLine("Ein kalter Wind weht durch die zerfallenen Mauern.");
-                Console.WriteLine("\nVor dir verzweigen sich drei Gänge:");
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.WriteLine("╔══════════════════════════════════════════════╗");
+            Console.WriteLine("║ Du betrittst die finsteren Hallen der Schatten ║");
+            Console.WriteLine("╚══════════════════════════════════════════════╝");
+            Console.ResetColor();
+            Console.WriteLine("Ein kalter Wind weht durch die zerfallenen Mauern und streift deinen Nacken.");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("Vor dir verzweigen sich drei düstere Gänge...");
+            Console.ResetColor();
 
+            // Beispiel für Gangauswahl (nur Anfang, Rest wie gehabt)
             while (!weiter)
             {
-             
                 if (!besuchteWege.Contains("1")) Console.WriteLine("1 - Gehe nach links");
                 if (!besuchteWege.Contains("2")) Console.WriteLine("2 - Gehe durch den schmalen Spalt direkt vor dir");
                 if (!besuchteWege.Contains("3")) Console.WriteLine("3 - Gehe nach rechts");
@@ -38,12 +44,12 @@ namespace Projekt
 
                 if (eingabe == "1" && !besuchteWege.Contains("1"))
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Plötzlich raschelt es im Dunkeln!");
                     Console.WriteLine("Eine Schattenratte greift dich an!");
+                    Console.ResetColor();
                     kampflogik.Kämpfe(spieler, ratte);
                     Console.WriteLine("Du hast den Kampf überlebt und kannst weitergehen.");
-                   
-
                     weiter = true;
                 }
                 else if (eingabe == "2" && !besuchteWege.Contains("2"))
@@ -83,6 +89,10 @@ namespace Projekt
 
                     while (einkaufen)
                     {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("Du betrittst eine staubige Kammer, in der ein alter Händler in Lumpen sitzt.");
+                        Console.WriteLine("»Willkommen, Fremder... Gold gegen Überleben, das ist der Deal«, murmelt er.");
+                        Console.ResetColor();
                         Console.WriteLine($"\nGold: {spieler.Gold}");
                         Console.WriteLine("Was möchtest du kaufen?");
                         Console.WriteLine("1 - Dolch (+2 Schaden) – 15 Gold");
@@ -173,9 +183,12 @@ namespace Projekt
 
                 if (eingabe == "1" && !besuchteWege.Contains("1"))
                 {
-                    Console.WriteLine("Eine riesige Schattenspinne fällt von der Decke!");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Eine riesige Schattenspinne fällt zischend von der Decke!");
+                    Console.ResetColor();
+                    Console.WriteLine("Ihr schwarzer Leib glänzt im matten Licht, und ihre acht Augen starren dich gierig an...");
                     kampflogik.Kämpfe(spieler, spinne);
-                    Console.WriteLine("Du hast sie besiegt. Zeit, dich dem Endboss zu stellen.");
+                    Console.WriteLine("Du hast sie besiegt. Zeit, dich dem Boss der 1.sten Ebene zu stellen.");
                     weiter = true;
                 }
                 else if (eingabe == "2" && !besuchteWege.Contains("2"))
@@ -202,23 +215,37 @@ namespace Projekt
                 Console.WriteLine("Drücke eine beliebige Taste, um den Kampf zu starten...");
                 Console.ReadKey();
                 Console.Clear();
-                Console.WriteLine("Du erreichst eine große Steintür mit eingravierten Symbolen.");
-                Console.WriteLine("Als du sie öffnest, spürst du sofort eine drückende Präsenz.");
-                Console.WriteLine("In der Mitte der Halle steht eine dunkle Gestalt, umgeben von schwarzem Nebel.");
-                Console.WriteLine("Es ist der 'Finsterwächter' – der Hüter des Ebenenübergangs!");
-                Console.WriteLine("Er hebt sein verfluchtes Schwert und schreit: 'Niemand passiert diesen Punkt!'");
-
-                Console.WriteLine("Der Kampf gegen den Miniboss beginnt!");
-                Console.WriteLine("Drücke eine beliebige Taste, um den Kampf zu starten...");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("Du erreichst eine gigantische Steintür mit mystischen Gravuren.");
+                Console.WriteLine("Ein kalter Nebel tritt aus den Ritzen, als du sie öffnest.");
+                Console.ResetColor();
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Inmitten der Halle steht eine dunkle Gestalt – umhüllt von schwarzem Rauch.");
+                Console.WriteLine("Der Finsterwächter erhebt sein verfluchtes Schwert:");
+                Console.WriteLine("\"Niemand passiert diesen Punkt lebend!\"");
+                Console.ResetColor();
+                Console.WriteLine();
+                Console.WriteLine(" Der epische Kampf beginnt! ");
                 Console.ReadKey();
 
+                // --- Kampfergebnis ---
                 kampflogik.Kämpfe(spieler, wächter);
 
                 if (wächter.Gesundheit < 0)
                 {
-                    Console.WriteLine("Du hast den Finsterwächter besiegt!");
-                    Console.WriteLine("Sein Körper zerfällt zu Staub und gibt den Weg zur nächsten Ebene frei.");
-                    Console.WriteLine("Du findest 40 Gold und ein mächtiges Item: 'Splitter der Schattenrüstung' (+10 HP)");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Mit einem letzten Hieb stürzt der Finsterwächter auf die Knie...");
+                    Console.WriteLine("Sein Körper zerfällt zu schwarzem Staub, der sich im Wind verliert.");
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    Console.WriteLine(" Du findest 40 Gold!");
+                    Console.WriteLine(" Außerdem entdeckst du ein seltenes Artefakt: »Splitter der Schattenrüstung« (+10 HP)");
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine("Ebene 1 Abgeschloßen. Wenn sie mit Ebene 2 fortfahren möchten drücken sie eine beliebige Taste :");
+                    Console.ReadKey();
+                    Console.Clear();
                     spieler.MaxGesundheit += 10;
                     spieler.Gesundheit += 10;
                     spieler.Gold += 40;
@@ -226,16 +253,21 @@ namespace Projekt
                 }
                 else if (spieler.Gesundheit <= 0)
                 {
-                    Console.WriteLine("Du bist gefallen. Das Abenteuer endet hier.");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Dein letzter Atemzug entweicht...");
+                    Console.WriteLine("Der Finsterwächter lacht triumphierend, während dein Körper regungslos zu Boden fällt.");
+                    Console.WriteLine("»Ein weiterer Narr, der das Labyrinth nicht überlebte…«");
+                    Console.ResetColor();
+                    Console.WriteLine(" GAME OVER ");
                     break;
                 }
             }
         }
 
 
-        }
+    }
 
-    } 
+} 
     
    
 
