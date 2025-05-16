@@ -15,7 +15,7 @@ namespace Projekt
             Gegner tiger = new Gegner("Tiger", 35, 6, 15, 35);
             Gegner kleinerSchatten = new Gegner("KleinerSchatten", 50, 7, 20, 50);
             Gegner steinGolem = new Gegner("SteinGolem", 50, 7, 20, 50);
-            Gegner herrSchatten = new Gegner("HerrderSchatten", 250, 25, 45, 250);
+            Gegner herrSchatten = new Gegner("HerrderSchatten", 200, 25, 45, 250);
 
             List<string> besuchteWege = new List<string>();
             bool weiter = false;
@@ -128,7 +128,7 @@ namespace Projekt
             Console.WriteLine("3 - Nichts kaufen");
             Console.Write("Deine Wahl: ");
             eingabe = Console.ReadLine()?.Trim() ?? "";
-            // Einkaufscode entsprechend verarbeiten
+           
 
             // Endboss
             Console.WriteLine("\nEin Tor öffnet sich. Der Herr der Schatten erscheint!");

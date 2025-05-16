@@ -19,6 +19,10 @@ namespace Projekt
         public bool HeilungBenutzt { get; set; } = false;
         public int Gold {  get; set; }
 
+        public int Level = 1;
+
+        public int GegnerGetoetet { get; set; } = 0;
+
 
         public Spieler(string name, int gesundheit, int minSchaden, int maxSchaden, int maxGesundheit)
         {
@@ -28,10 +32,23 @@ namespace Projekt
             MaxSchaden = maxSchaden;
             MaxGesundheit = maxGesundheit;
             Gold = 0;
+            GegnerGetoetet = 0;
+            Level = 1;
         }
 
 
-      
+        public void LevelUp()
+        {
+            Level++;
+            MaxGesundheit += 15;
+            Gesundheit += 15;
+            MinSchaden += 10;
+            MaxSchaden += 10;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"\n LEVEL UP! Du bist jetzt Level {Level}!");
+            Console.WriteLine("Gesundheit und Schaden wurden erhöht.\n");
+            Console.ResetColor();
+        }
 
 
     }

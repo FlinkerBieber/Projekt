@@ -37,6 +37,7 @@ namespace Projekt
                 Console.WriteLine("3 - Sammler (mehr Inventarplätze)");
 
                 string eingabe = Console.ReadLine() ?? "";
+                Console.Clear();
                 int wahl;
 
                 if (int.TryParse(eingabe, out wahl))

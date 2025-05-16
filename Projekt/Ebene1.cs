@@ -10,7 +10,7 @@ namespace Projekt
     internal static class Ebene1
     {
 
-        public static void StoryEbene1(Kampflogik kampflogik, Spieler spieler, string pfad)
+        public static void StoryEbene1(Kampflogik kampflogik, Spieler spieler)
         {
             Gegner ratte = new Gegner("Schattenratte", 30, 5, 10,30 );
             Gegner krabbler = new Gegner("knochenkrabbler", 35, 6, 11, 35);
@@ -22,7 +22,7 @@ namespace Projekt
 
             
 
-            Console.WriteLine("Du betrittst die finsteren Hallen der Schatten.");
+                Console.WriteLine("Du betrittst die finsteren Hallen der Schatten.");
                 Console.WriteLine("Ein kalter Wind weht durch die zerfallenen Mauern.");
                 Console.WriteLine("\nVor dir verzweigen sich drei Gänge:");
 
@@ -181,7 +181,7 @@ namespace Projekt
                 else if (eingabe == "2" && !besuchteWege.Contains("2"))
                 {
                     Console.WriteLine("Du findest einen Heiltrank.");
-                    // Loot ins Inventar
+                    
                     besuchteWege.Add("2");
                 }
                 else if (eingabe == "3" && !besuchteWege.Contains("3"))
@@ -194,15 +194,14 @@ namespace Projekt
                     Console.WriteLine("Ungültig oder bereits besucht.");
                 }
             }
-            Console.WriteLine("Möchtest du deinen Fortschritt speichern? (j/n)");
-             eingabe = Console.ReadLine()?.Trim()??"".ToLower();
-            if (eingabe == "j")
-            {
-                Speichern_Laden.Speichern(spieler, @"C:\\Users\\NitscheDennis\\source\\repos\\Projekt\\Projekt");
-                Console.WriteLine("Spielstand gespeichert.");
-            }
+            besuchteWege.Clear();
+            weiter = false;
+
             while (!weiter)
             {
+                Console.WriteLine("Drücke eine beliebige Taste, um den Kampf zu starten...");
+                Console.ReadKey();
+                Console.Clear();
                 Console.WriteLine("Du erreichst eine große Steintür mit eingravierten Symbolen.");
                 Console.WriteLine("Als du sie öffnest, spürst du sofort eine drückende Präsenz.");
                 Console.WriteLine("In der Mitte der Halle steht eine dunkle Gestalt, umgeben von schwarzem Nebel.");
@@ -210,23 +209,28 @@ namespace Projekt
                 Console.WriteLine("Er hebt sein verfluchtes Schwert und schreit: 'Niemand passiert diesen Punkt!'");
 
                 Console.WriteLine("Der Kampf gegen den Miniboss beginnt!");
+                Console.WriteLine("Drücke eine beliebige Taste, um den Kampf zu starten...");
+                Console.ReadKey();
+
                 kampflogik.Kämpfe(spieler, wächter);
 
-                if (wächter.Gesundheit <= 0)
+                if (wächter.Gesundheit < 0)
                 {
                     Console.WriteLine("Du hast den Finsterwächter besiegt!");
                     Console.WriteLine("Sein Körper zerfällt zu Staub und gibt den Weg zur nächsten Ebene frei.");
                     Console.WriteLine("Du findest 40 Gold und ein mächtiges Item: 'Splitter der Schattenrüstung' (+10 HP)");
-                    // Beispielhafte Belohnung: spieler.Gesundheit += 10;
+                    spieler.MaxGesundheit += 10;
+                    spieler.Gesundheit += 10;
+                    spieler.Gold += 40;
                     weiter = true;
                 }
                 else if (spieler.Gesundheit <= 0)
                 {
                     Console.WriteLine("Du bist gefallen. Das Abenteuer endet hier.");
-                    // Spiel beenden oder Neustart anbieten
                     break;
                 }
             }
+        }
 
 
         }
@@ -234,4 +238,4 @@ namespace Projekt
     } 
     
    
-}
+

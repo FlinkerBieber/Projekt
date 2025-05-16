@@ -9,27 +9,61 @@ namespace Projekt
 {
     internal class Speichern_Laden
     {
-        public static void Speichern(Spieler spieler, string pfad = "Speicher.json")
+        public static void Speichern(Spieler spieler)
         {
-            var optionen = new JsonSerializerOptions { WriteIndented = true }; 
-            string json = JsonSerializer.Serialize(spieler, optionen);
-            File.WriteAllText(pfad, json); 
-            Console.WriteLine("Spielstand gespeichert.");
+            string ordner = @"C:\Users\NitscheDennis\OneDrive - LG - Academy\Desktop\Speicherstände";
+            Directory.CreateDirectory(ordner);
+
+            string dateipfad = Path.Combine(ordner, "spielstand.txt");
+
+            string inhalt = $"Name:{spieler.Name}\n" +
+                            $"Gesundheit:{spieler.Gesundheit}\n" +
+                            $"MaxGesundheit:{spieler.MaxGesundheit}\n" +
+                            $"MinSchaden:{spieler.MinSchaden}\n" +
+                            $"MaxSchaden:{spieler.MaxSchaden}\n" +
+                            $"Level:{spieler.Level}\n" +
+                            $"Kills:{spieler.GegnerGetoetet}\n" +
+                            $"Gold:{spieler.Gold}";
+
+            File.WriteAllText(dateipfad, inhalt);
+            Console.WriteLine(" Spielstand gespeichert!");
         }
 
-        // Spielstand laden
-        public static Spieler Laden(string pfad = "Speicher.json")
+        public static Spieler Laden()
         {
-            if (!File.Exists(pfad))
+            string dateipfad = @"C:\Users\NitscheDennis\OneDrive - LG - Academy\Desktop\Speicherstände\spielstand.txt";
+
+            if (!File.Exists(dateipfad))
             {
-                Console.WriteLine("Kein Spielstand gefunden.");
-                return null; 
+                Console.WriteLine(" Kein Spielstand gefunden.");
+                return null;
             }
 
-            string json = File.ReadAllText(pfad); 
-            Spieler spieler = JsonSerializer.Deserialize<Spieler>(json, new JsonSerializerOptions { IncludeFields = true }) ; 
+            string[] zeilen = File.ReadAllLines(dateipfad);
+            Dictionary<string, string> daten = new();
+
+            foreach (var zeile in zeilen)
+            {
+                var teile = zeile.Split(':');
+                if (teile.Length == 2)
+                    daten[teile[0]] = teile[1];
+            }
+            string json = File.ReadAllText(dateipfad);
+            return JsonSerializer.Deserialize<Spieler>(json)!;
+            Spieler geladenerSpieler = new Spieler(
+                daten["Name"],
+                int.Parse(daten["Gesundheit"]),
+                int.Parse(daten["MinSchaden"]),
+                int.Parse(daten["MaxSchaden"]),
+                int.Parse(daten["MaxGesundheit"])
+            );
+
+            geladenerSpieler.Level = int.Parse(daten["Level"]);
+            geladenerSpieler.GegnerGetoetet = int.Parse(daten["Kills"]);
+            geladenerSpieler.Gold = int.Parse(daten["Gold"]);
+
             Console.WriteLine("Spielstand geladen.");
-            return spieler;
+            return geladenerSpieler;
         }
 
     }

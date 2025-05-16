@@ -18,7 +18,7 @@ namespace Projekt
             while (spieler.Gesundheit > 0 && gegner.Gesundheit > 0)
             {
                 Console.Clear();
-                Console.WriteLine($"🧍 {spieler.Name} vs. {gegner.Name} 🐀\n");
+                Console.WriteLine($" {spieler.Name} vs. {gegner.Name} \n");
                 ZeigeLebensbalken(spieler.Name, spieler.Gesundheit, spieler.MaxGesundheit);
                 ZeigeLebensbalken(gegner.Name, gegner.Gesundheit, gegner.MaxGesundheit);
                 Console.WriteLine();
@@ -69,15 +69,15 @@ namespace Projekt
 
             Console.Clear();
             if (spieler.Gesundheit > 0)
-                Console.WriteLine("🏆 Du hast gewonnen!");
+                Console.WriteLine(" Du hast gewonnen!");
             else if (spieler.Gesundheit <= 0)
             {
-                Console.WriteLine("💀 Du bist gestorben... Das Abenteuer endet hier.");
+                Console.WriteLine(" Du bist gestorben... Das Abenteuer endet hier.");
                 Console.WriteLine("Möchtest du von vorne beginnen? (j/n): ");
                 string antwort = Console.ReadLine()?.Trim().ToLower()??"";
                 if (antwort == "j")
                 {
-                    // Spiel zurücksetzen (z. B. Gesundheit, Gold, Inventar etc.)
+                    
                     spieler = new Spieler("", 100, 7, 15,100);
                     Console.WriteLine("Ein neues Abenteuer beginnt...");
                 }
@@ -87,15 +87,29 @@ namespace Projekt
                     Environment.Exit(0);
                 }
             }
+            else if (spieler.Gesundheit > 0 &&gegner.Gesundheit <= 0)
+            {
+                Console.WriteLine($"{gegner.Name} wurde besiegt!");
+                spieler.GegnerGetoetet++;
+                if (spieler.GegnerGetoetet % 3 == 0)
+                {
+                    spieler.LevelUp();
+                }
+
+                return;
+            }
+
 
             static void ZeigeLebensbalken(string name, int hp, int maxHp)
             {
+                if (maxHp <= 0) maxHp = 100 ; // Schutz vor Division durch 0
 
                 int breite = 20;
-                int anzahl = (int)((double)hp / maxHp * breite);
-                anzahl = Math.Clamp(anzahl, 0, breite); // anzahl darf nicht < 0 oder > breite sein
-
                 double prozent = (double)hp / maxHp;
+                int anzahl = (int)(prozent * breite);
+                anzahl = Math.Clamp(anzahl, 0, breite); // nicht kleiner 0, nicht größer 20
+
+                // Farbwahl je nach Lebenszustand
                 if (prozent >= 0.7)
                     Console.ForegroundColor = ConsoleColor.Green;
                 else if (prozent >= 0.3)
@@ -107,8 +121,12 @@ namespace Projekt
                 Console.Write(new string('#', anzahl));
                 Console.ResetColor();
                 Console.Write(new string('-', breite - anzahl));
-                Console.WriteLine($"] {hp} HP");
+                Console.WriteLine($"] {hp} / {maxHp} HP");
             }
+           
         }
+
+
+
     }
 }

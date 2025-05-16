@@ -102,25 +102,25 @@ namespace Projekt
 
             while (!weiter)
             {
-                if (!besuchteWege.Contains("A")) Console.WriteLine("A - Raum voller Knochen");
-                if (!besuchteWege.Contains("B")) Console.WriteLine("B - Raum mit Pilzen");
-                if (!besuchteWege.Contains("C")) Console.WriteLine("C - Versteckte Nische");
+                if (!besuchteWege.Contains("1")) Console.WriteLine("A - Raum voller Knochen");
+                if (!besuchteWege.Contains("2")) Console.WriteLine("B - Raum mit Pilzen");
+                if (!besuchteWege.Contains("3")) Console.WriteLine("C - Versteckte Nische");
 
                 Console.Write("Wähle deinen Weg (A-C): ");
                 eingabe = Console.ReadLine()?.Trim().ToUpper() ?? "";
 
-                if (eingabe == "A" && !besuchteWege.Contains("A"))
+                if (eingabe == "A" && !besuchteWege.Contains("1"))
                 {
                     Console.WriteLine("Eine Skelettbestie greift dich an!");
                     kampflogik.Kämpfe(spieler, skelettBestie);
                     weiter = true;
                 }
-                else if (eingabe == "B" && !besuchteWege.Contains("B"))
+                else if (eingabe == "B" && !besuchteWege.Contains("2"))
                 {
                     Console.WriteLine("Du findest einen sicheren Durchgang – kein Kampf.");
                     weiter = true;
                 }
-                else if (eingabe == "C" && !besuchteWege.Contains("C"))
+                else if (eingabe == "C" && !besuchteWege.Contains("3"))
                 {
                     Console.WriteLine("Eine leere Truhe – der Weg ist versperrt.");
                     besuchteWege.Add("C");
@@ -133,8 +133,8 @@ namespace Projekt
 
             // Händler
             Console.WriteLine("\nDu findest einen Händler:");
-            Console.WriteLine("1 - Stahlschwert (+3 Schaden)");
-            Console.WriteLine("2 - Eisenrüstung (+10 HP)");
+            Console.WriteLine("1 - Stahlschwert (+8 Schaden)");
+            Console.WriteLine("2 - Eisenrüstung (+15 HP)");
             Console.WriteLine("3 - Heiltrank (+30 HP)");
             Console.WriteLine("0 - Nichts kaufen");
 
@@ -143,15 +143,24 @@ namespace Projekt
             switch (eingabe)
             {
                 case "1":
-                    if (spieler.Gold >= 30) { spieler.Schaden += 3; spieler.Gold -= 30; Console.WriteLine("Gekauft."); }
+                    if (spieler.Gold >= 30) { 
+                        spieler.Schaden += 8;
+                        spieler.Gold -= 30; 
+                        Console.WriteLine("Gekauft."); }
                     else Console.WriteLine("Nicht genug Gold.");
                     break;
                 case "2":
-                    if (spieler.Gold >= 40) { spieler.Gesundheit += 10; spieler.Gold -= 40; Console.WriteLine("Gekauft."); }
+                    if (spieler.Gold >= 40) { 
+                        spieler.Gesundheit += 15; 
+                        spieler.Gold -= 40;
+                        Console.WriteLine("Gekauft."); }
                     else Console.WriteLine("Nicht genug Gold.");
                     break;
                 case "3":
-                    if (spieler.Gold >= 20) { spieler.Gesundheit += 30; spieler.Gold -= 20; Console.WriteLine("Gekauft."); }
+                    if (spieler.Gold >= 20) { 
+                        spieler.Gesundheit += 30; 
+                        spieler.Gold -= 20; 
+                        Console.WriteLine("Gekauft."); }
                     else Console.WriteLine("Nicht genug Gold.");
                     break;
                 case "0":
